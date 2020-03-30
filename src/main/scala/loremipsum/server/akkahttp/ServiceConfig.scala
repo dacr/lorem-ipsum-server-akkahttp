@@ -4,15 +4,9 @@ import org.slf4j.LoggerFactory
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
-import scala.concurrent.duration.FiniteDuration
-
 case class ApplicationConfig(
   name:String,
   code:String,
-)
-
-case class SystemConfig(
-  shutdownTimeout:FiniteDuration
 )
 
 case class HttpConfig(
@@ -34,7 +28,6 @@ case class Content(
 
 case class ServiceConfig(
   application:ApplicationConfig,
-  system:SystemConfig,
   http:HttpConfig,
   site:SiteConfig,
   content:Content,
