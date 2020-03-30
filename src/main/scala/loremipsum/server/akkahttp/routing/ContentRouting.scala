@@ -21,7 +21,14 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
       get {
         complete {
           val wordCount = 42 + (Math.random()*100).toInt
-          val paragraphs = LoremIpsum.generate(wordCount, config.content.startWithLoremIpsum)
+          val paragraphs =
+            LoremIpsum.generate(
+              wordCount = wordCount,
+              startWithLoremIpsum = config.content.startWithLoremIpsum,
+              truncate = false,
+              randomize = false,
+              sentencesBased = true
+            )
           val attributes = Map(
             "base" -> config.site.prefix.getOrElse(""),
             "url" -> config.site.url,
