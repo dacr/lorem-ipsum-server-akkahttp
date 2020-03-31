@@ -24,6 +24,11 @@ case class SiteConfig(
 case class Content(
   title:String,
   startWithLoremIpsum:Boolean,
+  truncate:Boolean,
+  randomize:Boolean,
+  sentencesBased:Boolean,
+  minWordCount:Int,
+  maxWordCount:Int,
 )
 
 case class ServiceConfig(
