@@ -36,19 +36,20 @@ libraryDependencies ++= Seq(
 
 // server side dependencies
 libraryDependencies ++= Seq(
-  "com.github.pureconfig"            %% "pureconfig"         % versions.pureConfig,
-  "org.json4s"                       %% "json4s-native"      % versions.json4s,
-  "org.json4s"                       %% "json4s-ext"         % versions.json4s,
-  "com.typesafe.akka"                %% "akka-http"          % versions.akkaHttp,
-  "com.typesafe.akka"                %% "akka-stream"        % versions.akka,
-  "com.typesafe.akka"                %% "akka-slf4j"         % versions.akka,
-  "com.typesafe.akka"                %% "akka-testkit"       % versions.akka % Test,
-  "com.typesafe.akka"                %% "akka-http-testkit"  % versions.akkaHttp % Test,
-  "de.heikoseeberger"                %% "akka-http-json4s"   % versions.akkaHttpJson4s,
-  "org.slf4j"                         % "slf4j-api"          % versions.slf4j,
-  "ch.qos.logback"                    % "logback-classic"    % versions.logback,
-  "org.webjars"                       % "webjars-locator"    % versions.webjarsLocator,
-  "org.scalatra.scalate"             %% "scalate-core"       % versions.scalate,
-  "org.scalatest"                    %% "scalatest"          % versions.scalatest % Test,
-  "fr.janalyse"                      %% "lorem-ipsum"        % versions.loremIpsum
+  "com.github.pureconfig"  %% "pureconfig"          % versions.pureConfig,
+  "org.json4s"             %% "json4s-native"       % versions.json4s,
+  "org.json4s"             %% "json4s-ext"          % versions.json4s,
+  "com.typesafe.akka"      %% "akka-http"           % versions.akkaHttp,
+  "com.typesafe.akka"      %% "akka-stream"         % versions.akka,
+  "com.typesafe.akka"      %% "akka-slf4j"          % versions.akka,
+  "com.typesafe.akka"      %% "akka-testkit"        % versions.akka % Test,
+  "com.typesafe.akka"      %% "akka-stream-testkit" % versions.akka % Test,
+  "com.typesafe.akka"      %% "akka-http-testkit"   % versions.akkaHttp % Test,
+  "de.heikoseeberger"      %% "akka-http-json4s"    % versions.akkaHttpJson4s,
+  "org.slf4j"              %  "slf4j-api"           % versions.slf4j,
+  "ch.qos.logback"         %  "logback-classic"     % versions.logback,
+  "org.webjars"            %  "webjars-locator"     % versions.webjarsLocator,
+  "org.scalatra.scalate"   %% "scalate-core"        % versions.scalate,
+  "org.scalatest"          %% "scalatest"           % versions.scalatest % Test,
+  "fr.janalyse"            %% "lorem-ipsum"         % versions.loremIpsum
 )
