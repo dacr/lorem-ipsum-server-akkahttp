@@ -24,7 +24,7 @@ lazy val versions = new {
   val scalatest        = "3.1.1"
   val webjarsLocator   = "0.39"
   val scalate          = "1.9.5"
-  val loremIpsum       = "0.0.4"
+  val loremIpsum       = "1.0.0"
 }
 
 // client side dependencies
