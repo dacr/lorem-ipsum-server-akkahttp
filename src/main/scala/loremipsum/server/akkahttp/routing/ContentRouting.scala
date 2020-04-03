@@ -53,7 +53,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
             "title" -> config.title,
             "paragraphs" -> paragraphs
           )
-          val content = templating.layout("templates/home.mustache", attributes)
+          val content = templating.layout("loremipsum/templates/home.mustache", attributes)
           val contentType = `text/html` withCharset `UTF-8`
           HttpResponse(entity = HttpEntity(contentType, content), headers = noClientCacheHeaders)
         }
