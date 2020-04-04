@@ -19,20 +19,22 @@ import akka.actor.{ActorSystem, Terminated}
 import akka.http.scaladsl._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
+import com.typesafe.config.ConfigFactory
 import org.slf4j.Logger
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRoutes) {
-  val config = dependencies.config.loremIpsum
-  val name: String = config.application.code
-  val interface: String = config.http.listeningInterface
-  val port: Int = config.http.listeningPort
+  val appConfig = dependencies.config.loremIpsum
+  val name: String = appConfig.application.code
+  val interface: String = appConfig.http.listeningInterface
+  val port: Int = appConfig.http.listeningPort
 
   private val logger: Logger = org.slf4j.LoggerFactory.getLogger(name)
   logger.info(s"Service $name is starting")
 
-  implicit val system: ActorSystem = akka.actor.ActorSystem(s"akka-http-$name-system")
+  val config = ConfigFactory.load() // akka specific config is accessible under the path named 'lorem-ipsum'
+  implicit val system: ActorSystem = akka.actor.ActorSystem(s"akka-http-$name-system", config.getConfig("lorem-ipsum"))
   implicit val materializer: ActorMaterializer.type = akka.stream.ActorMaterializer
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
