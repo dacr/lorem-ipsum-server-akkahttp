@@ -41,9 +41,11 @@ case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRou
   val bindingFuture: Future[Http.ServerBinding] = Http().bindAndHandle(handler = servicesRoutes.routes, interface = interface, port = port)
   bindingFuture.map(_ => logger.info(s"Service $name is started"))
 
-  def shutdown(): Future[Terminated] = {
-    bindingFuture
-      .flatMap(_.unbind())
-      .flatMap { _ => system.terminate() }
+  def shutdown(): Unit = {
+    bindingFuture.flatMap(_.unbind()).onComplete { _ =>
+      logger.info(s"$name http service has shutdown")
+      logger.info(s"stopping actor system ${system.name}...")
+      system.terminate()
+    }
   }
 }

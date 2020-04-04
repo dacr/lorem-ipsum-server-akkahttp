@@ -16,11 +16,12 @@
 package loremipsum.server.akkahttp
 
 import org.slf4j.Logger
+import ch.qos.logback.classic.util.ContextInitializer
 
 object Main {
-  val logger: Logger = org.slf4j.LoggerFactory.getLogger("LoremIpsumMain")
-
+  System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "loremipsum/logback.xml")
   def main(args: Array[String]): Unit = {
+    val logger: Logger = org.slf4j.LoggerFactory.getLogger("LoremIpsumMain")
     logger.info(s"LoremIpsum application is starting")
     val dependencies = ServiceDependencies.defaults
     val serviceRoutes = ServiceRoutes(dependencies)

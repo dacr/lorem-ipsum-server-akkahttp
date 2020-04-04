@@ -53,6 +53,8 @@ case class LoremIpsumConfig(
   content:Content,
 )
 
+// ---------------------------------------------------------------------------------------------------------------------
+
 case class ServiceConfig(
   loremIpsum:LoremIpsumConfig
 )
