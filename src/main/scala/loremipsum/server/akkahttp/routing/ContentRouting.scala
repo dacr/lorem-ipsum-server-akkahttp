@@ -33,7 +33,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
   override def routes: Route = content
 
   def content: Route = {
-    pathSingleSlash {
+    pathEndOrSingleSlash {
       get {
         complete {
           val minWordCount = config.minWordCount
@@ -48,7 +48,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
               sentencesBased = config.sentencesBased
             )
           val attributes = Map(
-            "base" -> configSite.prefix.map(p=> s"/$p").getOrElse(""),
+            "base" -> configSite.cleanedPrefix.map(p=> s"/$p").getOrElse(""),
             "url" -> configSite.url,
             "title" -> config.title,
             "paragraphs" -> paragraphs
