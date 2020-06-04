@@ -20,10 +20,18 @@ import akka.http.scaladsl.model.MediaTypes._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-
 import loremipsum.server.akkahttp.ServiceDependencies
-import loremipsum.LoremIpsum
+import loremipsum.{LoremIpsum, Paragraph}
 
+
+case class HomeContext(
+  base: String,
+  url: String,
+  title: String,
+  backgroundColor: String,
+  foregroundColor: String,
+  paragraphs: List[String]
+)
 
 case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
   val templating = dependencies.templating
@@ -38,8 +46,8 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
         complete {
           val minWordCount = config.minWordCount
           val maxWordCount = config.maxWordCount
-          val wordCount = minWordCount + (Math.random()*(maxWordCount - minWordCount)).toInt
-          val paragraphs =
+          val wordCount = minWordCount + (Math.random() * (maxWordCount - minWordCount)).toInt
+          val paragraphs: Seq[Paragraph] =
             LoremIpsum.generate(
               wordCount = wordCount,
               alwaysStartWithLorem = config.startWithLoremIpsum,
@@ -47,13 +55,15 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
               randomize = config.randomize,
               sentencesBased = config.sentencesBased
             )
-          val attributes = Map(
-            "base" -> configSite.cleanedPrefix.map(p=> s"/$p").getOrElse(""),
-            "url" -> configSite.url,
-            "title" -> config.title,
-            "paragraphs" -> paragraphs
+          val context = HomeContext(
+            base = configSite.cleanedPrefix.map(p => s"/$p").getOrElse(""),
+            url = configSite.url,
+            title = config.title,
+            backgroundColor = config.backgroundColor,
+            foregroundColor = config.foregroundColor,
+            paragraphs = paragraphs.map(_.text).toList
           )
-          val content = templating.layout("loremipsum/templates/home.mustache", attributes)
+          val content = templating.layout("loremipsum/templates/home.mustache", context)
           val contentType = `text/html` withCharset `UTF-8`
           HttpResponse(entity = HttpEntity(contentType, content), headers = noClientCacheHeaders)
         }

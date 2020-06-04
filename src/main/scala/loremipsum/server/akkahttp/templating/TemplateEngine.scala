@@ -15,17 +15,25 @@
  */
 package loremipsum.server.akkahttp.templating
 
+import loremipsum.Paragraph
 import loremipsum.server.akkahttp.ServiceConfig
-import org.fusesource.scalate._
+import loremipsum.server.akkahttp.routing.HomeContext
+import yamusca.imports._
+import yamusca.implicits._
 
 trait Templating {
-  def layout(templateName:String, properties:Map[String,Any]):String
+  def layout(templateName:String, context:HomeContext):String
 }
 
 case class ScalateTemplating(config:ServiceConfig) extends Templating {
-  private val engine = new TemplateEngine
 
-  override def layout(templateName:String, properties:Map[String,Any]):String = {
-    engine.layout(templateName, properties)
+  override def layout(templateName:String, context:HomeContext):String = {
+    // TODO - first implementation waiting for refactoring
+    implicit val homeContextConverter = ValueConverter.deriveConverter[HomeContext]
+    val templateInput = getClass().getClassLoader().getResourceAsStream(templateName)
+    val templateString = scala.io.Source.fromInputStream(templateInput).iterator.mkString
+    //val template = mustache.parse(templateString)
+    //mustache.render(template.toOption.get)
+    context.unsafeRender(templateString)
   }
 }

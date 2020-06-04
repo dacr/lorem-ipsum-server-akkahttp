@@ -13,15 +13,15 @@
 <body>
 <p/>
 <div class="container">
-    <div class="jumbotron">
+  <div class="jumbotron" style="background-color:{{backgroundColor}};color:{{foregroundColor}}">
 
-  <h1><img src="{{base}}/images/logo-base-64.png"/>{{title}}</h1>
+    <h1><img src="{{base}}/images/logo-base-64.png"/>{{title}}</h1>
 
-  {{#paragraphs}}
-      <p class="text-justify">{{text}}</p>
-  {{/paragraphs}}
+    {{#paragraphs}}
+        <p class="text-justify">{{.}}</p>
+    {{/paragraphs}}
 
-    </div>
+  </div>
 </div>
 
 <script src="{{base}}/assets/jquery/jquery.min.js"></script>

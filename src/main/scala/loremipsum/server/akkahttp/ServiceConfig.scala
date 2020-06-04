@@ -44,6 +44,8 @@ case class Content(
   sentencesBased:Boolean,
   minWordCount:Int,
   maxWordCount:Int,
+  foregroundColor:String,
+  backgroundColor:String,
 )
 
 case class LoremIpsumConfig(

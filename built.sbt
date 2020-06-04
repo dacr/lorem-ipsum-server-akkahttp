@@ -4,7 +4,7 @@ homepage := Some(new URL("https://github.com/dacr/lorem-ipsum-server-akkahttp"))
 licenses += "Apache 2" -> url(s"http://www.apache.org/licenses/LICENSE-2.0.txt")
 scmInfo := Some(ScmInfo(url(s"https://github.com/dacr/lorem-ipsum-server-akkahttp.git"), s"git@github.com:dacr/lorem-ipsum-server-akkahttp.git"))
 
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.2"
 scalacOptions ++= Seq( "-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
@@ -15,15 +15,15 @@ lazy val versions = new {
 
   // server side dependencies
   val pureConfig       = "0.12.3"
-  val akka             = "2.6.4"
-  val akkaHttp         = "10.1.11"
-  val akkaHttpJson4s   = "1.31.0"
-  val json4s           = "3.6.7"
+  val akka             = "2.6.5"
+  val akkaHttp         = "10.1.12"
+  val akkaHttpJson4s   = "1.32.0"
+  val json4s           = "3.6.8"
   val logback          = "1.2.3"
   val slf4j            = "1.7.30"
-  val scalatest        = "3.1.1"
-  val webjarsLocator   = "0.39"
-  val scalate          = "1.9.5"
+  val scalatest        = "3.1.2"
+  val webjarsLocator   = "0.40"
+  val yamusca          = "0.6.2"
   val loremIpsum       = "1.0.1"
 }
 
@@ -49,7 +49,7 @@ libraryDependencies ++= Seq(
   "org.slf4j"              %  "slf4j-api"           % versions.slf4j,
   "ch.qos.logback"         %  "logback-classic"     % versions.logback,
   "org.webjars"            %  "webjars-locator"     % versions.webjarsLocator,
-  "org.scalatra.scalate"   %% "scalate-core"        % versions.scalate,
+  "com.github.eikek"       %% "yamusca-core"        % versions.yamusca,
   "org.scalatest"          %% "scalatest"           % versions.scalatest % Test,
-  "fr.janalyse"            %% "lorem-ipsum"         % versions.loremIpsum
+  "fr.janalyse"            %% "lorem-ipsum"         % versions.loremIpsum,
 )
