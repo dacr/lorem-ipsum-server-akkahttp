@@ -61,7 +61,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
             title = config.title,
             backgroundColor = config.backgroundColor,
             foregroundColor = config.foregroundColor,
-            paragraphs = paragraphs.map(_.text).toList
+            paragraphs = paragraphs.map(_.text()).toList
           )
           val content = templating.layout("loremipsum/templates/home.mustache", context)
           val contentType = `text/html` withCharset `UTF-8`
