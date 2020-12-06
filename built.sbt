@@ -4,27 +4,27 @@ homepage := Some(new URL("https://github.com/dacr/lorem-ipsum-server-akkahttp"))
 licenses += "Apache 2" -> url(s"http://www.apache.org/licenses/LICENSE-2.0.txt")
 scmInfo := Some(ScmInfo(url(s"https://github.com/dacr/lorem-ipsum-server-akkahttp.git"), s"git@github.com:dacr/lorem-ipsum-server-akkahttp.git"))
 
-scalaVersion := "2.13.2"
+scalaVersion := "2.13.4"
 scalacOptions ++= Seq( "-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
   // client side dependencies
-  val bootstrap        = "4.4.1"
-  val jquery           = "3.4.1"
+  val bootstrap        = "4.5.3"
+  val jquery           = "3.5.1"
   val popperjs         = "1.16.0"
 
   // server side dependencies
-  val pureConfig       = "0.12.3"
-  val akka             = "2.6.5"
-  val akkaHttp         = "10.1.12"
-  val akkaHttpJson4s   = "1.32.0"
-  val json4s           = "3.6.8"
+  val pureConfig       = "0.14.0"
+  val akka             = "2.6.10"
+  val akkaHttp         = "10.2.1"
+  val akkaHttpJson4s   = "1.35.2"
+  val json4s           = "3.6.10"
   val logback          = "1.2.3"
   val slf4j            = "1.7.30"
-  val scalatest        = "3.1.2"
+  val scalatest        = "3.2.3"
   val webjarsLocator   = "0.40"
-  val yamusca          = "0.6.2"
-  val loremIpsum       = "1.0.1"
+  val yamusca          = "0.7.0"
+  val loremIpsum       = "1.0.2"
 }
 
 // client side dependencies
@@ -37,7 +37,7 @@ libraryDependencies ++= Seq(
 // server side dependencies
 libraryDependencies ++= Seq(
   "com.github.pureconfig"  %% "pureconfig"          % versions.pureConfig,
-  "org.json4s"             %% "json4s-native"       % versions.json4s,
+  "org.json4s"             %% "json4s-jackson"       % versions.json4s,
   "org.json4s"             %% "json4s-ext"          % versions.json4s,
   "com.typesafe.akka"      %% "akka-http"           % versions.akkaHttp,
   "com.typesafe.akka"      %% "akka-stream"         % versions.akka,

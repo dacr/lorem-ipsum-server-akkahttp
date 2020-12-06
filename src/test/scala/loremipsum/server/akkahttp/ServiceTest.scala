@@ -23,14 +23,13 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.http.scaladsl.server._
 import Directives._
-import org.json4s.JsonAST.JValue
-import org.json4s.{DefaultFormats, Formats, JString, native}
+import org.json4s._
+import org.json4s.jackson.Serialization
 import org.json4s.ext.{JavaTimeSerializers, JavaTypesSerializers}
-import org.json4s.native.Serialization
 
 
 class ServiceTest extends AnyWordSpec with should.Matchers with ScalatestRouteTest {
-  implicit val chosenSerialization: Serialization.type = native.Serialization
+  implicit val chosenSerialization: Serialization.type = Serialization
   implicit val chosenFormats: Formats = DefaultFormats.lossless ++ JavaTimeSerializers.all ++ JavaTypesSerializers.all
 
   val routes = ServiceRoutes(ServiceDependencies.defaults).routes
