@@ -11,9 +11,8 @@ scalacOptions ++= Seq( "-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
   // client side dependencies
-  val bootstrap        = "4.5.3"
+  val bootstrap        = "4.6.0"
   val jquery           = "3.5.1"
-  val popperjs         = "1.16.0"
 
   // server side dependencies
   val pureConfig       = "0.14.0"
@@ -25,7 +24,7 @@ lazy val versions = new {
   val slf4j            = "1.7.30"
   val scalatest        = "3.2.3"
   val webjarsLocator   = "0.40"
-  val yamusca          = "0.7.0"
+  val yamusca          = "0.8.0"
   val loremIpsum       = "1.0.2"
 }
 
@@ -33,7 +32,6 @@ lazy val versions = new {
 libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % versions.bootstrap,
   "org.webjars" % "jquery"    % versions.jquery,
-  "org.webjars" % "popper.js" % versions.popperjs,
 )
 
 // server side dependencies
