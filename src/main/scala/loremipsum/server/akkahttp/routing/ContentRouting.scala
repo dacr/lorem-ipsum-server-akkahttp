@@ -23,6 +23,8 @@ import akka.http.scaladsl.server.Route
 import loremipsum.server.akkahttp.ServiceDependencies
 import loremipsum.server.akkahttp.templating.Templating
 import loremipsum.{LoremIpsum, Paragraph}
+import yamusca.imports._
+import yamusca.implicits._
 
 
 case class HomeContext(
@@ -31,12 +33,16 @@ case class HomeContext(
 )
 
 case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
-  val templating = dependencies.templating
   val config = dependencies.config.loremIpsum.content
   val configSite = dependencies.config.loremIpsum.site
   val pageContext = PageContext(dependencies.config.loremIpsum)
 
   override def routes: Route = content
+
+  val templating: Templating = Templating(dependencies.config)
+  implicit val pageContextConverter = ValueConverter.deriveConverter[PageContext]
+  implicit val homeContextConverter = ValueConverter.deriveConverter[HomeContext]
+  val homeLayout = (context: Context) => templating.makeTemplateLayout("loremipsum/templates/home.mustache")(context)
 
   def content: Route = {
     pathEndOrSingleSlash {
@@ -57,15 +63,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
             context = pageContext,
             paragraphs = paragraphs.map(_.text()).toList
           )
-          val templateContext = {
-            import yamusca.imports._
-            import yamusca.implicits._
-            implicit val pageContextConverter = ValueConverter.deriveConverter[PageContext]
-            implicit val homeContextConverter = ValueConverter.deriveConverter[HomeContext]
-            homeContext.asContext
-          }
-          val templating: Templating = Templating(dependencies.config)
-          val content = templating.layout("loremipsum/templates/home.mustache", templateContext)
+          val content = homeLayout(homeContext.asContext)
           val contentType = `text/html` withCharset `UTF-8`
           HttpResponse(entity = HttpEntity(contentType, content), headers = noClientCacheHeaders)
         }
