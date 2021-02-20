@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2021 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package loremipsum.server.akkahttp
 
-import loremipsum.server.akkahttp.templating.{ScalateTemplating, Templating}
+import loremipsum.server.akkahttp.templating.Templating
 
 trait ServiceDependencies {
   val config:ServiceConfig
@@ -25,6 +25,6 @@ trait ServiceDependencies {
 object ServiceDependencies {
   def defaults:ServiceDependencies = new ServiceDependencies {
     override val config: ServiceConfig = ServiceConfig()
-    override val templating: Templating = ScalateTemplating(config)
+    override val templating: Templating = Templating(config)
   }
 }

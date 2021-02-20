@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2021 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,12 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import loremipsum.server.akkahttp.ServiceDependencies
+import loremipsum.server.akkahttp.templating.Templating
 import loremipsum.{LoremIpsum, Paragraph}
 
 
 case class HomeContext(
-  base: String,
-  url: String,
-  title: String,
-  backgroundColor: String,
-  foregroundColor: String,
+  context:PageContext,
   paragraphs: List[String]
 )
 
@@ -37,6 +34,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
   val templating = dependencies.templating
   val config = dependencies.config.loremIpsum.content
   val configSite = dependencies.config.loremIpsum.site
+  val pageContext = PageContext(dependencies.config.loremIpsum)
 
   override def routes: Route = content
 
@@ -55,15 +53,19 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
               randomize = config.randomize,
               sentencesBased = config.sentencesBased
             )
-          val context = HomeContext(
-            base = configSite.cleanedPrefix.map(p => s"/$p").getOrElse(""),
-            url = configSite.url,
-            title = config.title,
-            backgroundColor = config.backgroundColor,
-            foregroundColor = config.foregroundColor,
+          val homeContext = HomeContext(
+            context = pageContext,
             paragraphs = paragraphs.map(_.text()).toList
           )
-          val content = templating.layout("loremipsum/templates/home.mustache", context)
+          val templateContext = {
+            import yamusca.imports._
+            import yamusca.implicits._
+            implicit val pageContextConverter = ValueConverter.deriveConverter[PageContext]
+            implicit val homeContextConverter = ValueConverter.deriveConverter[HomeContext]
+            homeContext.asContext
+          }
+          val templating: Templating = Templating(dependencies.config)
+          val content = templating.layout("loremipsum/templates/home.mustache", templateContext)
           val contentType = `text/html` withCharset `UTF-8`
           HttpResponse(entity = HttpEntity(contentType, content), headers = noClientCacheHeaders)
         }

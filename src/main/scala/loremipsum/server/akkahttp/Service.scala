@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2021 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,26 +26,30 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRoutes) {
   val appConfig = dependencies.config.loremIpsum
-  val name: String = appConfig.application.code
+  val version = appConfig.metaInfo.version
+  val appCode: String = appConfig.application.code
   val interface: String = appConfig.http.listeningInterface
   val port: Int = appConfig.http.listeningPort
 
-  private val logger: Logger = org.slf4j.LoggerFactory.getLogger(name)
-  logger.info(s"Service $name is starting")
+  private val logger: Logger = org.slf4j.LoggerFactory.getLogger(appCode)
+  logger.info(s"$appCode service version $version is starting")
 
   val config = ConfigFactory.load() // akka specific config is accessible under the path named 'lorem-ipsum'
-  implicit val system: ActorSystem = akka.actor.ActorSystem(s"akka-http-$name-system", config.getConfig("lorem-ipsum"))
-  implicit val materializer: ActorMaterializer.type = akka.stream.ActorMaterializer
+  implicit val system: ActorSystem = akka.actor.ActorSystem(s"akka-http-$appCode-system", config.getConfig("lorem-ipsum"))
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val bindingFuture: Future[Http.ServerBinding] = Http().newServerAt(interface = interface, port = port).bindFlow(servicesRoutes.routes)
   bindingFuture.map{_ =>
-    logger.info(s"Service $name is started and listening on $interface:$port")
+    logger.info(s"$appCode service is started and listening on $interface:$port")
+    //logger.info(s"$appCode Embedded swagger user interface ${appConfig.site.swaggerUserInterfaceURL} - TODO")
+    //logger.info(s"$appCode Embedded swagger specification ${appConfig.site.swaggerURL} - TODO")
+    //logger.info(s"$appCode API end point ${appConfig.site.apiURL} - TODO")
+    logger.info(s"$appCode home page ${appConfig.site.baseURL}")
   }
 
   def shutdown(): Unit = {
     bindingFuture.flatMap(_.unbind()).onComplete { _ =>
-      logger.info(s"$name http service has shutdown")
+      logger.info(s"$appCode http service has shutdown")
       logger.info(s"stopping actor system ${system.name}...")
       system.terminate()
     }

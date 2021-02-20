@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2021 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ object Main {
   System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "loremipsum/logback.xml")
   def main(args: Array[String]): Unit = {
     val logger: Logger = org.slf4j.LoggerFactory.getLogger("LoremIpsumMain")
-    logger.info(s"LoremIpsum application is starting")
+    logger.info(s"lorem-ipsum application is starting")
     val dependencies = ServiceDependencies.defaults
     val serviceRoutes = ServiceRoutes(dependencies)
     Service(dependencies, serviceRoutes)

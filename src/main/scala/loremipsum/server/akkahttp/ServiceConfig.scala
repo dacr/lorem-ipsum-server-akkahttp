@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2021 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,54 +20,80 @@ import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
 case class ApplicationConfig(
-  name:String,
-  code:String,
+  name: String,
+  code: String,
 )
 
 case class HttpConfig(
-  listeningInterface:String,
-  listeningPort:Int,
+  listeningInterface: String,
+  listeningPort: Int,
 )
 
 case class SiteConfig(
-  prefix:Option[String],
-  url:String
-) {
-  val cleanedPrefix = prefix.map(_.trim).filter(_.size>0)
+  prefix: Option[String],
+  url: String
+)  {
+  val cleanedPrefix = prefix.map(_.trim.replaceAll("/+$", "")).filter(_.size > 0)
+  val cleanedURL = url.trim.replaceAll("/+$", "")
+  val absolutePrefix = cleanedPrefix.map(p => s"/$p").getOrElse("")
+  val baseURL = url + absolutePrefix
+  val apiURL = baseURL + "/api"
+  val swaggerUserInterfaceURL = s"$baseURL/swagger"
+  val swaggerURL = s"$baseURL/swagger/swagger.json"
 }
 
 case class Content(
-  title:String,
-  startWithLoremIpsum:Boolean,
-  truncate:Boolean,
-  randomize:Boolean,
-  sentencesBased:Boolean,
-  minWordCount:Int,
-  maxWordCount:Int,
-  foregroundColor:String,
-  backgroundColor:String,
+  title: String,
+  startWithLoremIpsum: Boolean,
+  truncate: Boolean,
+  randomize: Boolean,
+  sentencesBased: Boolean,
+  minWordCount: Int,
+  maxWordCount: Int,
+  foregroundColor: String,
+  backgroundColor: String,
 )
 
+case class LoremMetaConfig(
+  projectName: Option[String],
+  projectGroup: Option[String],
+  projectPage: Option[String],
+  buildVersion: Option[String],
+  buildDateTime: Option[String],
+  buildUUID: Option[String],
+) {
+  def version = buildVersion.getOrElse("x.y.z")
+  def dateTime = buildDateTime.getOrElse("?")
+  def uuid = buildUUID.getOrElse("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+  def projectURL = projectPage.getOrElse("https://github.com/dacr")
+}
+
+
 case class LoremIpsumConfig(
-  application:ApplicationConfig,
-  http:HttpConfig,
-  site:SiteConfig,
-  content:Content,
+  application: ApplicationConfig,
+  http: HttpConfig,
+  site: SiteConfig,
+  content: Content,
+  metaInfo: LoremMetaConfig
 )
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 case class ServiceConfig(
-  loremIpsum:LoremIpsumConfig
+  loremIpsum: LoremIpsumConfig
 )
 
 object ServiceConfig {
-  def apply():ServiceConfig = {
+  def apply(): ServiceConfig = {
     val logger = LoggerFactory.getLogger("LoremIpsumServiceConfig")
-    ConfigSource.default.load[ServiceConfig] match {
+    val configSource = {
+      val metaConfig = ConfigSource.resources("lorem-meta.conf")
+      ConfigSource.default.withFallback(metaConfig.optional)
+    }
+    configSource.load[ServiceConfig] match {
       case Left(issues) =>
-        issues.toList.foreach{issue => logger.error(issue.toString)}
-        throw new RuntimeException("Invalid application configuration\n"+issues.toList.map(_.toString).mkString("\n"))
+        issues.toList.foreach { issue => logger.error(issue.toString) }
+        throw new RuntimeException("Invalid application configuration\n" + issues.toList.map(_.toString).mkString("\n"))
       case Right(config) =>
         config
     }

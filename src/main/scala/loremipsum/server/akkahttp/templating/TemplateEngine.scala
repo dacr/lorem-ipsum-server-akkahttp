@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2021 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,17 @@
  */
 package loremipsum.server.akkahttp.templating
 
-import loremipsum.Paragraph
 import loremipsum.server.akkahttp.ServiceConfig
-import loremipsum.server.akkahttp.routing.HomeContext
 import yamusca.imports._
 import yamusca.implicits._
 
-trait Templating {
-  def layout(templateName:String, context:HomeContext):String
-}
+case class Templating(config: ServiceConfig) {
 
-case class ScalateTemplating(config:ServiceConfig) extends Templating {
-
-  override def layout(templateName:String, context:HomeContext):String = {
-    // TODO - first implementation waiting for refactoring
-    implicit val homeContextConverter = ValueConverter.deriveConverter[HomeContext]
+  def layout[T](templateName: String, context: Context): String = {
+    //implicit val homeContextConverter = ValueConverter.deriveConverter[PageContext]
     val templateInput = getClass().getClassLoader().getResourceAsStream(templateName)
     val templateString = scala.io.Source.fromInputStream(templateInput).iterator.mkString
-    //val template = mustache.parse(templateString)
-    //mustache.render(template.toOption.get)
-    context.unsafeRender(templateString)
+    val template = mustache.parse(templateString)
+    mustache.render(template.toOption.get)(context)
   }
 }
