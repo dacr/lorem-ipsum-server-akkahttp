@@ -32,7 +32,7 @@ case class HomeContext(
   paragraphs: List[String]
 )
 
-case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
+case class HomeRouting(dependencies: ServiceDependencies) extends Routing {
   val config = dependencies.config.loremIpsum.content
   val configSite = dependencies.config.loremIpsum.site
   val pageContext = PageContext(dependencies.config.loremIpsum)
@@ -42,7 +42,7 @@ case class ContentRouting(dependencies: ServiceDependencies) extends Routing {
   val templating: Templating = Templating(dependencies.config)
   implicit val pageContextConverter = ValueConverter.deriveConverter[PageContext]
   implicit val homeContextConverter = ValueConverter.deriveConverter[HomeContext]
-  val homeLayout = (context: Context) => templating.makeTemplateLayout("loremipsum/templates/home.mustache")(context)
+  val homeLayout = (context: Context) => templating.makeTemplateLayout("loremipsum/templates/home.html")(context)
 
   def content: Route = {
     pathEndOrSingleSlash {

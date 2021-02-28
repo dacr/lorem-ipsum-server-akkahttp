@@ -18,7 +18,7 @@ package loremipsum.server.akkahttp
 
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
-import loremipsum.server.akkahttp.routing.{AssetsRouting, ContentRouting, AdminRouting}
+import loremipsum.server.akkahttp.routing.{AdminRouting, AssetsRouting, HomeRouting, LoremIpsumRouting, SwaggerRouting}
 
 /**
  * Prepare (reduce & prefix) service routes
@@ -28,9 +28,11 @@ case class ServiceRoutes(dependencies: ServiceDependencies) {
   val config = dependencies.config.loremIpsum
 
   private val rawRoutes: Route = List(
+    LoremIpsumRouting(dependencies),
+    HomeRouting(dependencies),
     AdminRouting(dependencies),
     AssetsRouting(dependencies),
-    ContentRouting(dependencies),
+    SwaggerRouting(dependencies)
   ).map(_.routes).reduce(_ ~ _)
 
   val routes: Route =
