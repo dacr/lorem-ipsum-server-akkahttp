@@ -45,6 +45,7 @@ case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRou
     logger.info(s"$appCode Embedded swagger specification ${appConfig.site.swaggerURL}")
     logger.info(s"$appCode API end point ${appConfig.site.apiURL}")
     logger.info(s"$appCode home page ${appConfig.site.baseURL}")
+    logger.info(s"$appCode project page ${appConfig.metaInfo.projectURL} (with configuration documentation) ")
   }
 
   def shutdown(): Unit = {

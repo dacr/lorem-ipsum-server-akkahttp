@@ -42,16 +42,21 @@ case class SiteConfig(
   val swaggerURL = s"$baseURL/swagger/swagger.json"
 }
 
-case class Content(
+case class ContentConfig(
   title: String,
+  minWordCount: Int,
+  maxWordCount: Int,
+  foregroundColor: String,
+  backgroundColor: String,
+)
+
+case class GeneratorConfig(
   startWithLoremIpsum: Boolean,
   truncate: Boolean,
   randomize: Boolean,
   sentencesBased: Boolean,
   minWordCount: Int,
   maxWordCount: Int,
-  foregroundColor: String,
-  backgroundColor: String,
 )
 
 case class LoremMetaConfig(
@@ -73,7 +78,8 @@ case class LoremIpsumConfig(
   application: ApplicationConfig,
   http: HttpConfig,
   site: SiteConfig,
-  content: Content,
+  content: ContentConfig,
+  generator: GeneratorConfig,
   metaInfo: LoremMetaConfig
 )
 

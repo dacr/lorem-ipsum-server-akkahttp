@@ -22,7 +22,6 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import loremipsum.server.akkahttp.ServiceDependencies
 import loremipsum.server.akkahttp.templating.Templating
-import loremipsum.{LoremIpsum, Paragraph}
 import yamusca.imports._
 import yamusca.implicits._
 
@@ -33,9 +32,11 @@ case class HomeContext(
 )
 
 case class HomeRouting(dependencies: ServiceDependencies) extends Routing {
-  val config = dependencies.config.loremIpsum.content
+  val contentConfig = dependencies.config.loremIpsum.content
   val configSite = dependencies.config.loremIpsum.site
   val pageContext = PageContext(dependencies.config.loremIpsum)
+  val minWordCount = Some(contentConfig.minWordCount)
+  val maxWordCount = Some(contentConfig.maxWordCount)
 
   override def routes: Route = content
 
@@ -48,20 +49,10 @@ case class HomeRouting(dependencies: ServiceDependencies) extends Routing {
     pathEndOrSingleSlash {
       get {
         complete {
-          val minWordCount = config.minWordCount
-          val maxWordCount = config.maxWordCount
-          val wordCount = minWordCount + (Math.random() * (maxWordCount - minWordCount)).toInt
-          val paragraphs: Seq[Paragraph] =
-            LoremIpsum.generate(
-              wordCount = wordCount,
-              alwaysStartWithLorem = config.startWithLoremIpsum,
-              truncate = config.truncate,
-              randomize = config.randomize,
-              sentencesBased = config.sentencesBased
-            )
+          val paragraphs = dependencies.lorem.randomParagraphs(minWordCount, maxWordCount)
           val homeContext = HomeContext(
             context = pageContext,
-            paragraphs = paragraphs.map(_.text()).toList
+            paragraphs = paragraphs.toList
           )
           val content = homeLayout(homeContext.asContext)
           val contentType = `text/html` withCharset `UTF-8`

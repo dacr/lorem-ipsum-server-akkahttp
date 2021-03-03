@@ -31,12 +31,12 @@ case class LoremIpsumRouting(dependencies: ServiceDependencies) extends Routing 
   val instanceUUID = UUID.randomUUID().toString
 
   override def routes: Route = pathPrefix("api") {
-    concat(info)
+    concat(info, loremIpsumParagraphs, loremIpsumText)
   }
 
   def info: Route = {
-    get {
-      path("info") {
+    path("info") {
+      get {
         complete(
           Map(
             "instanceUUID" -> instanceUUID,
@@ -48,4 +48,31 @@ case class LoremIpsumRouting(dependencies: ServiceDependencies) extends Routing 
       }
     }
   }
+
+  def loremIpsumParagraphs: Route = {
+    path("paragraphs") {
+      get {
+        parameters("minWordCount".as[Int].optional, "maxWordCount".as[Int].optional) { (minWordCount, maxWordCount) =>
+          complete {
+            dependencies.lorem.randomParagraphs(minWordCount, maxWordCount)
+          }
+        }
+      }
+    }
+  }
+
+
+  def loremIpsumText: Route = {
+    path("text") {
+      get {
+        parameters("minWordCount".as[Int].optional, "maxWordCount".as[Int].optional) { (minWordCount, maxWordCount) =>
+          complete {
+            dependencies.lorem.randomText(minWordCount, maxWordCount)
+          }
+        }
+      }
+    }
+  }
+
+
 }

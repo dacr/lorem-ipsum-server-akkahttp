@@ -35,6 +35,83 @@
           }
         }
       }
+    },
+    "/paragraphs": {
+      "get": {
+        "summary": "Get randomly generated lorem ipsum paragraphs",
+        "parameters": [
+          {
+            "name": "minWordCount",
+            "description": "Minimum number of words in the generated lorem ipsum content",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "maxWordCount",
+            "description": "Maximum number of words in the generated lorem ipsum content",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/text": {
+      "get": {
+        "summary": "Get randomly generated lorem ipsum text, paragraphs are separated by new lines",
+        "parameters": [
+          {
+            "name": "minWordCount",
+            "description": "Minimum number of words in the generated lorem ipsum content",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "maxWordCount",
+            "description": "Maximum number of words in the generated lorem ipsum content",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

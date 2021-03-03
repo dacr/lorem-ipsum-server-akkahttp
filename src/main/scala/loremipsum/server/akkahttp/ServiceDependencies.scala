@@ -15,14 +15,17 @@
  */
 package loremipsum.server.akkahttp
 
-import loremipsum.server.akkahttp.templating.Templating
+import loremipsum.server.akkahttp.dependencies.loremipsumgenerator.{DefaultLoremIpsumGenerator, LoremIpsumGenerator}
 
 trait ServiceDependencies {
   val config:ServiceConfig
+  val lorem:LoremIpsumGenerator
 }
 
 object ServiceDependencies {
+  val defaultConfig = ServiceConfig()
   def defaults:ServiceDependencies = new ServiceDependencies {
-    override val config: ServiceConfig = ServiceConfig()
+    override val config: ServiceConfig = defaultConfig
+    override val lorem: LoremIpsumGenerator = DefaultLoremIpsumGenerator(defaultConfig)
   }
 }
