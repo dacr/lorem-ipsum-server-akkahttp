@@ -20,11 +20,16 @@ import ch.qos.logback.classic.util.ContextInitializer
 
 object Main {
   System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "loremipsum/logback.xml")
-  def main(args: Array[String]): Unit = {
+
+  def start():Service = {
     val logger: Logger = org.slf4j.LoggerFactory.getLogger("LoremIpsumMain")
     logger.info(s"lorem-ipsum application is starting")
     val dependencies = ServiceDependencies.defaults
     val serviceRoutes = ServiceRoutes(dependencies)
     Service(dependencies, serviceRoutes)
+  }
+
+  def main(args: Array[String]): Unit = {
+    start()
   }
 }

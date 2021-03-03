@@ -55,4 +55,12 @@ case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRou
       system.terminate()
     }
   }
+
+  // Can be used to avoid automatic exit from ammonite scripts
+  def waitSystemTerminate():Unit = {
+    println("Waiting for end of operations...")
+    import scala.concurrent.Await
+    import scala.concurrent.duration.Duration
+    Await.ready(system.whenTerminated, Duration.Inf)
+  }
 }
