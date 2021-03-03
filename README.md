@@ -13,7 +13,7 @@ It has been deployed on https://mapland.fr/lorem
 Thanks to [coursier][cs] from @alxarchambault,
 this application is quite easy to start, just execute :
 ```
-cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.5
+cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.6
 ```
 
 ## Configuration
