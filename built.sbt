@@ -4,9 +4,10 @@ homepage := Some(new URL("https://github.com/dacr/lorem-ipsum-server-akkahttp"))
 licenses += "Apache 2" -> url(s"http://www.apache.org/licenses/LICENSE-2.0.txt")
 scmInfo := Some(ScmInfo(url(s"https://github.com/dacr/lorem-ipsum-server-akkahttp.git"), s"git@github.com:dacr/lorem-ipsum-server-akkahttp.git"))
 
-mainClass in (Compile, packageBin) := Some("loremipsum.server.akkahttp.Main")
+Compile / mainClass := Some("loremipsum.server.akkahttp.Main")
+packageBin / mainClass := Some("loremipsum.server.akkahttp.Main")
 
-scalaVersion := "2.13.5"
+scalaVersion := "2.13.6"
 scalacOptions ++= Seq( "-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
@@ -16,17 +17,17 @@ lazy val versions = new {
   val jquery           = "3.5.1"
 
   // server side dependencies
-  val pureConfig       = "0.14.1"
-  val akka             = "2.6.13"
+  val pureConfig       = "0.15.0"
+  val akka             = "2.6.14"
   val akkaHttp         = "10.2.4"
-  val akkaHttpJson4s   = "1.35.3"
+  val akkaHttpJson4s   = "1.36.0"
   val json4s           = "3.6.11"
   val logback          = "1.2.3"
   val slf4j            = "1.7.30"
-  val scalatest        = "3.2.5"
+  val scalatest        = "3.2.9"
   val webjarsLocator   = "0.40"
-  val yamusca          = "0.8.0"
-  val loremIpsum       = "1.0.2"
+  val yamusca          = "0.8.1"
+  val loremIpsum       = "1.0.3"
 }
 
 // client side dependencies

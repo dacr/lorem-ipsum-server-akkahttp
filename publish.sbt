@@ -3,13 +3,13 @@ pomIncludeRepository := { _ => false }
 releaseCrossBuild := true
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := true
-publishArtifact in Test := false
+Test / publishArtifact := false
 publishTo := Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
 
 PgpKeys.useGpg in Global := true      // workaround with pgp and sbt 1.2.x
 pgpSecretRing := pgpPublicRing.value  // workaround with pgp and sbt 1.2.x
 
-pomExtra in Global := {
+Global / pomExtra := {
   <developers>
     <developer>
       <id>dacr</id>
