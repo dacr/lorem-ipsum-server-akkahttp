@@ -17,15 +17,15 @@ lazy val versions = new {
   val jquery           = "3.5.1"
 
   // server side dependencies
-  val pureConfig       = "0.15.0"
-  val akka             = "2.6.14"
+  val pureConfig       = "0.16.0"
+  val akka             = "2.6.15"
   val akkaHttp         = "10.2.4"
   val akkaHttpJson4s   = "1.36.0"
-  val json4s           = "3.6.11"
+  val json4s           = "4.0.0"
   val logback          = "1.2.3"
-  val slf4j            = "1.7.30"
+  val slf4j            = "1.7.31"
   val scalatest        = "3.2.9"
-  val webjarsLocator   = "0.40"
+  val webjarsLocator   = "0.41"
   val yamusca          = "0.8.1"
   val loremIpsum       = "1.0.3"
 }
