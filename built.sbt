@@ -26,7 +26,6 @@ lazy val versions = new {
   val slf4j            = "1.7.31"
   val scalatest        = "3.2.9"
   val webjarsLocator   = "0.41"
-  val yamusca          = "0.8.1"
   val loremIpsum       = "1.0.3"
 }
 
@@ -52,7 +51,14 @@ libraryDependencies ++= Seq(
   "org.slf4j"              %  "slf4j-api"           % versions.slf4j,
   "ch.qos.logback"         %  "logback-classic"     % versions.logback,
   "org.webjars"            %  "webjars-locator"     % versions.webjarsLocator,
-  "com.github.eikek"       %% "yamusca-core"        % versions.yamusca,
   "org.scalatest"          %% "scalatest"           % versions.scalatest % Test,
   "fr.janalyse"            %% "lorem-ipsum"         % versions.loremIpsum,
 )
+
+enablePlugins(SbtTwirl)
+
+// TODO - to remove when twirl will be available for scala3
+libraryDependencies := libraryDependencies.value.map {
+  case module if module.name == "twirl-api" => module.cross(CrossVersion.for3Use2_13)
+  case module                               => module
+}

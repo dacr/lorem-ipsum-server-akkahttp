@@ -2,7 +2,6 @@ package loremipsum.server.akkahttp.routing
 
 import loremipsum.server.akkahttp.LoremIpsumConfig
 
-
 case class PageContext(
   title: String,
   appcode: String,
@@ -17,25 +16,27 @@ case class PageContext(
   buildDateTime: String,
   backgroundColor: String,
   foregroundColor: String,
+  contactEmail: String
 )
 
 object PageContext {
-  def apply(webEchoConfig: LoremIpsumConfig) = {
-    val site = webEchoConfig.site
+  def apply(config: LoremIpsumConfig) = {
+    val site = config.site
     new PageContext(
-      title = webEchoConfig.application.name,
-      appcode = webEchoConfig.application.code,
+      title = config.application.name,
+      appcode = config.application.code,
       base = site.absolutePrefix,
       url = site.cleanedURL,
       baseURL = site.baseURL,
       apiURL = site.apiURL,
       swaggerURL = site.swaggerURL,
       swaggerUIURL = site.swaggerUserInterfaceURL,
-      projectURL =  webEchoConfig.metaInfo.projectURL,
-      buildVersion = webEchoConfig.metaInfo.version,
-      buildDateTime = webEchoConfig.metaInfo.dateTime,
-      foregroundColor = webEchoConfig.content.foregroundColor,
-      backgroundColor = webEchoConfig.content.backgroundColor,
+      projectURL = config.metaInfo.projectURL,
+      buildVersion = config.metaInfo.version,
+      buildDateTime = config.metaInfo.dateTime,
+      foregroundColor = config.content.foregroundColor,
+      backgroundColor = config.content.backgroundColor,
+      contactEmail = config.metaInfo.contact
     )
   }
 }
