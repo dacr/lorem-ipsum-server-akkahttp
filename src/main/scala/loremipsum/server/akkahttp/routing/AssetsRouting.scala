@@ -21,15 +21,13 @@ import akka.http.scaladsl.server.directives.ContentTypeResolver.Default
 import loremipsum.server.akkahttp.ServiceDependencies
 import org.webjars.WebJarAssetLocator
 
-object AssetsRouting {
-  protected val assetLocator = new WebJarAssetLocator()
-}
+case class AssetsRouting(dependencies: ServiceDependencies) extends Routing {
 
-case class AssetsRouting(dependencies:ServiceDependencies) extends Routing {
+  val assetLocator = new WebJarAssetLocator()
 
-  private def staticRoutes:Route = {
+  private def staticRoutes: Route = {
     val staticResourcesSubDirectories = List("js", "css", "images", "fonts", "pdf", "txt")
-    val routes = for {resourceDirectory <- staticResourcesSubDirectories} yield {
+    val routes                        = for { resourceDirectory <- staticResourcesSubDirectories } yield {
       path(resourceDirectory / RemainingPath) { resource =>
         respondWithHeaders(clientCacheHeaders) {
           getFromResource(s"loremipsum/static-content/$resourceDirectory/${resource.toString()}")
@@ -39,15 +37,15 @@ case class AssetsRouting(dependencies:ServiceDependencies) extends Routing {
     routes.reduce(_ ~ _)
   }
 
-  private def assetsRoutes:Route =
-    rejectEmptyResponse  {
-      path("assets" / Segment / RemainingPath ) { (webjar, path) =>
+  private def assetsRoutes: Route =
+    rejectEmptyResponse {
+      path("assets" / Segment / RemainingPath) { (webjar, path) =>
         respondWithHeaders(clientCacheHeaders) {
-          val resourcePath = AssetsRouting.assetLocator.getFullPath(webjar, path.toString())
+          val resourcePath = assetLocator.getFullPath(webjar, path.toString())
           getFromResource(resourcePath)
         }
       }
     }
 
-  override def routes:Route = assetsRoutes ~ staticRoutes
+  override def routes: Route = assetsRoutes ~ staticRoutes
 }
