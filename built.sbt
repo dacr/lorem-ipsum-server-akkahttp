@@ -7,6 +7,8 @@ scmInfo := Some(ScmInfo(url(s"https://github.com/dacr/lorem-ipsum-server-akkahtt
 Compile / mainClass := Some("loremipsum.server.akkahttp.Main")
 packageBin / mainClass := Some("loremipsum.server.akkahttp.Main")
 
+versionScheme := Some("semver-spec")
+
 scalaVersion := "2.13.6"
 scalacOptions ++= Seq( "-deprecation", "-unchecked", "-feature")
 
