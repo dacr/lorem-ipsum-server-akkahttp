@@ -1,4 +1,4 @@
-# ![](images/logo-base-32.png) Lorem ipsum web ![tests][tests-workflow] [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
+# ![](images/logo-base-32.png) Lorem ipsum web ![tests][tests-workflow] [![License][licenseImg]][licenseLink] [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
 
 A [lorem ipsum][wiki-lorem] web application server based on [akka http][akka-http] framework, and
 a dedicated [lorem ipsum library][lorem-lib]. 
@@ -42,3 +42,6 @@ cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.11
 [LoremIpsumServerAkka]:       https://github.com/dacr/lorem-ipsum-server-akkahttp
 [LoremIpsumServerAkkaMvnImg]: https://img.shields.io/maven-central/v/fr.janalyse/lorem-ipsum-server-akkahttp_2.13.svg
 [LoremIpsumServerAkkaMvnLnk]: https://search.maven.org/#search%7Cga%7C1%7Cfr.janalyse.lorem-ipsum-server-akkahttp
+
+[licenseImg]: https://img.shields.io/github/license/dacr/lorem-ipsum-server-akkahttp.svg
+[licenseLink]: LICENSE
