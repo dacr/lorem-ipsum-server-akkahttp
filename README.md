@@ -37,7 +37,7 @@ cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.11
 [wiki-lorem]: https://en.wikipedia.org/wiki/Lorem_ipsum
 [akka-http]:  https://doc.akka.io/docs/akka-http/current/index.html
 
-[tests-workflow]: https://github.com/dacr/lorem-ipsum-akkahttp/actions/workflows/scala.yml/badge.svg
+[tests-workflow]: https://github.com/dacr/lorem-ipsum-server-akkahttp/actions/workflows/scala.yml/badge.svg
 
 [LoremIpsumServerAkka]:       https://github.com/dacr/lorem-ipsum-server-akkahttp
 [LoremIpsumServerAkkaMvnImg]: https://img.shields.io/maven-central/v/fr.janalyse/lorem-ipsum-server-akkahttp_2.13.svg
