@@ -16,9 +16,9 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
   // client side dependencies
-  val swaggerui = "3.52.5"
-  val bootstrap = "4.6.2"
-  val jquery    = "3.5.1"
+  val swaggerui = "4.14.2"
+  val bootstrap = "5.2.2"
+  val jquery    = "3.6.1"
 
   // server side dependencies
   val pureConfig     = "0.17.1"
