@@ -11,7 +11,7 @@ packageBin / mainClass := Some("loremipsum.server.akkahttp.Main")
 
 versionScheme := Some("semver-spec")
 
-scalaVersion := "2.13.9"
+scalaVersion := "2.13.10"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
