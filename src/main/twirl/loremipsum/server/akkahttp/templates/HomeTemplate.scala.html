@@ -1,47 +1,45 @@
 @import loremipsum.server.akkahttp.routing.HomeContext
 @(home: HomeContext)
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link href="@home.context.base/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="icon" type="image/png" href="@home.context.base/images/logo-base-32.png">
     <title>@home.context.title</title>
   </head>
   <body>
-    <p/>
-    <div class="container">
-      <div class="jumbotron" style="background-color:@home.context.backgroundColor;color:@home.context.foregroundColor">
+    <div class="container py-4">
+      <div class="p-5 mb-4 bg-light rounded-5" style="background-color:@home.context.backgroundColor;color:@home.context.foregroundColor">
+        <div class="jumbotron">
+          <h1 class="display-4"><a href="@home.context.base" class="link-dark"><img src="@home.context.base/images/logo-base-64.png"/></a>@home.context.title</h1>
 
-        <h1><img src="@home.context.base/images/logo-base-64.png"/><a href="@home.context.base">@home.context.title</a></h1>
+          <hr class="my-4"/>
 
-        @for(paragraph <- home.paragraphs) {
-          <p class="text-justify">@paragraph</p>
-        }
+          @for(paragraph <- home.paragraphs) {
+            <p class="lead text-sm-start">@paragraph</p>
+          }
 
-        <hr/>
+          <hr class="my-4"/>
 
-        <p>
-          Take a look to the <a href="@home.context.swaggerUIURL">Swagger API specification</a> to use this service
-          or go to <a href="@home.context.projectURL">the @home.context.appcode github repository</a> if you want
-          to contribute.
-        </p>
-
-        <p align="right"><small>
-          <i>
-            <a href="@home.context.projectURL">@home.context.appcode</a> @home.context.buildVersion
-          </i>
-        </small>
-        </p>
+          <p>
+            Take a look to the <a href="@home.context.swaggerUIURL">Swagger API specification</a> to use this service
+            or go to <a href="@home.context.projectURL">the @home.context.appcode github repository</a> if you want
+            to contribute.
+          </p>
+          <p class="text-end"><small>
+            <i>
+              <a href="@home.context.projectURL">@home.context.appcode</a> @home.context.buildVersion
+            </i>
+          </small>
+          </p>
+        </div>
       </div>
     </div>
 
     <script src="@home.context.base/assets/jquery/jquery.min.js"></script>
     <script src="@home.context.base/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-
   </body>
 </html>
 
