@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 David Crosson
+ * Copyright 2020-2022 David Crosson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,18 +27,17 @@ import org.json4s._
 import org.json4s.jackson.Serialization
 import org.json4s.ext.{JavaTimeSerializers, JavaTypesSerializers}
 
-
 class ServiceTest extends AnyWordSpec with should.Matchers with ScalatestRouteTest {
   implicit val chosenSerialization: Serialization.type = Serialization
-  implicit val chosenFormats: Formats = DefaultFormats.lossless ++ JavaTimeSerializers.all ++ JavaTypesSerializers.all
+  implicit val chosenFormats: Formats                  = DefaultFormats.lossless ++ JavaTimeSerializers.all ++ JavaTypesSerializers.all
 
   val routes = ServiceRoutes(ServiceDependencies.defaults).routes
 
-  "Lorem Ipsum Service" should  {
+  "Lorem Ipsum Service" should {
     "Respond OK when pinged" in {
       Get("/health") ~> routes ~> check {
         import de.heikoseeberger.akkahttpjson4s.Json4sSupport._
-        responseAs[Health] shouldBe Health(true,"alive")
+        responseAs[Health] shouldBe Health(true, "alive")
       }
     }
     "Be able to return a static asset" in {
@@ -59,4 +58,3 @@ class ServiceTest extends AnyWordSpec with should.Matchers with ScalatestRouteTe
     }
   }
 }
-

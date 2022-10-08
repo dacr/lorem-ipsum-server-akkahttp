@@ -1,4 +1,4 @@
-# ![](images/logo-base-32.png) Lorem ipsum web [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
+# ![](images/logo-base-32.png) Lorem ipsum web ![tests][tests-workflow] [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
 
 A [lorem ipsum][wiki-lorem] web application server based on [akka http][akka-http] framework, and
 a dedicated [lorem ipsum library][lorem-lib]. 
@@ -13,7 +13,7 @@ It has been deployed on https://mapland.fr/lorem
 Thanks to [coursier][cs] from @alxarchambault,
 this application is quite easy to start, just execute :
 ```
-cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.8
+cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.11
 ```
 
 ## Configuration
@@ -36,6 +36,8 @@ cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.8
 [lorem-lib]:  https://github.com/dacr/lorem-ipsum
 [wiki-lorem]: https://en.wikipedia.org/wiki/Lorem_ipsum
 [akka-http]:  https://doc.akka.io/docs/akka-http/current/index.html
+
+[tests-workflow]: https://github.com/dacr/lorem-ipsum-akkahttp/actions/workflows/scala.yml/badge.svg
 
 [LoremIpsumServerAkka]:       https://github.com/dacr/lorem-ipsum-server-akkahttp
 [LoremIpsumServerAkkaMvnImg]: https://img.shields.io/maven-central/v/fr.janalyse/lorem-ipsum-server-akkahttp_2.13.svg
