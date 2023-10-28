@@ -15,10 +15,10 @@
  */
 package loremipsum.server.akkahttp.routing
 
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import de.heikoseeberger.akkahttpjson4s.Json4sSupport._
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.server.Directives._
+import org.apache.pekko.http.scaladsl.server.Route
+import com.github.pjfanning.pekkohttpjson4s.Json4sSupport._
 import loremipsum.server.akkahttp.ServiceDependencies
 import loremipsum.server.akkahttp.tools.DateTimeTools
 

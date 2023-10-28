@@ -16,8 +16,8 @@
 
 package loremipsum.server.akkahttp
 
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.Directives._
+import org.apache.pekko.http.scaladsl.server.Route
+import org.apache.pekko.http.scaladsl.server.Directives._
 import loremipsum.server.akkahttp.routing.{AdminRouting, AssetsRouting, HomeRouting, LoremIpsumRouting, SwaggerRouting}
 
 /**
