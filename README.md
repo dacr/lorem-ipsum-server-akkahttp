@@ -10,10 +10,10 @@ It has been deployed on https://mapland.fr/lorem
 
 ## Quick local start
 
-Thanks to [coursier][cs] from @alxarchambault,
+Thanks to [scala-cli][scl],
 this application is quite easy to start, just execute :
 ```
-cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.11
+scala-cli -S 2.13.15 --dep fr.janalyse::lorem-ipsum-server-akkahttp:1.0.14 -e 'loremipsum.server.akkahttp.Main.main(args)'
 ```
 
 ## Configuration
@@ -32,6 +32,9 @@ cs launch fr.janalyse::lorem-ipsum-server-akkahttp:1.0.11
 
 
 [cs]: https://get-coursier.io/
+[scl]: https://scala-cli.virtuslab.org/
+
+
 [deployed]:   http://crosson.fr/lorem
 [lorem-lib]:  https://github.com/dacr/lorem-ipsum
 [wiki-lorem]: https://en.wikipedia.org/wiki/Lorem_ipsum

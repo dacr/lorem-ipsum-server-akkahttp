@@ -1,43 +1,39 @@
 name         := "lorem-ipsum-server-akkahttp"
 organization := "fr.janalyse"
-homepage     := Some(new URL("https://github.com/dacr/lorem-ipsum-server-akkahttp"))
+description  := ""
 
 licenses += "NON-AI-APACHE2" -> url(s"https://github.com/non-ai-licenses/non-ai-licenses/blob/main/NON-AI-APACHE2")
 
-scmInfo := Some(ScmInfo(url(s"https://github.com/dacr/lorem-ipsum-server-akkahttp.git"), s"git@github.com:dacr/lorem-ipsum-server-akkahttp.git"))
+scalaVersion := "2.13.15"
 
-Compile / mainClass    := Some("loremipsum.server.akkahttp.Main")
-packageBin / mainClass := Some("loremipsum.server.akkahttp.Main")
-
-versionScheme := Some("semver-spec")
-
-scalaVersion := "2.13.12"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
   // client side dependencies
-  val swaggerui = "4.19.1"
-  val bootstrap = "5.3.2"
+  val swaggerui = "5.17.14"
+  val bootstrap = "5.3.3"
   val jquery    = "3.7.1"
+  val awesome   = "6.5.2"
 
   // server side dependencies
-  val pureConfig      = "0.17.4"
-  val pekko           = "1.0.1"
-  val pekkoHttp       = "1.0.0"
-  val pekkoHttpJson4s = "2.1.1"
-  val json4s          = "4.0.6"
-  val logback         = "1.4.11"
-  val slf4j           = "2.0.9"
-  val scalatest       = "3.2.17"
-  val webjarsLocator  = "0.48"
-  val loremIpsum      = "1.0.6"
+  val pureConfig      = "0.17.7"
+  val pekko           = "1.1.1"
+  val pekkoHttp       = "1.1.0"
+  val pekkoHttpJson4s = "3.0.0"
+  val json4s          = "4.0.7"
+  val logback         = "1.5.8"
+  val slf4j           = "2.0.16"
+  val scalatest       = "3.2.19"
+  val webjarsLocator  = "0.52"
+  val loremIpsum      = "1.0.7"
 }
 
 // client side dependencies
 libraryDependencies ++= Seq(
-  "org.webjars" % "swagger-ui" % versions.swaggerui,
-  "org.webjars" % "bootstrap"  % versions.bootstrap,
-  "org.webjars" % "jquery"     % versions.jquery
+  "org.webjars" % "swagger-ui"   % versions.swaggerui,
+  "org.webjars" % "bootstrap"    % versions.bootstrap,
+  "org.webjars" % "jquery"       % versions.jquery,
+  "org.webjars" % "font-awesome" % versions.awesome
 )
 
 // server side dependencies
@@ -59,10 +55,18 @@ libraryDependencies ++= Seq(
   "fr.janalyse"           %% "lorem-ipsum"          % versions.loremIpsum
 )
 
+Compile / mainClass    := Some("loremipsum.server.akkahttp.Main")
+packageBin / mainClass := Some("loremipsum.server.akkahttp.Main")
+
 enablePlugins(SbtTwirl)
 
-// TODO - to remove when twirl will be available for scala3
-libraryDependencies := libraryDependencies.value.map {
-  case module if module.name == "twirl-api" => module.cross(CrossVersion.for3Use2_13)
-  case module                               => module
-}
+homepage   := Some(url("https://github.com/dacr/lorem-ipsum-server-akkahttp"))
+scmInfo    := Some(ScmInfo(url(s"https://github.com/dacr/lorem-ipsum-server-akkahttp.git"), s"git@github.com:dacr/lorem-ipsum-server-akkahttp.git"))
+developers := List(
+  Developer(
+    id = "dacr",
+    name = "David Crosson",
+    email = "crosson.david@gmail.com",
+    url = url("https://github.com/dacr")
+  )
+)
