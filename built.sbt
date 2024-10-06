@@ -1,6 +1,6 @@
 name         := "lorem-ipsum-server-akkahttp"
 organization := "fr.janalyse"
-description  := ""
+description  := "lorem-ipsum service with API"
 
 licenses += "NON-AI-APACHE2" -> url(s"https://github.com/non-ai-licenses/non-ai-licenses/blob/main/NON-AI-APACHE2")
 
