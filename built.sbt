@@ -4,7 +4,7 @@ description  := "lorem-ipsum service with API"
 
 licenses += "NON-AI-APACHE2" -> url(s"https://github.com/non-ai-licenses/non-ai-licenses/blob/main/NON-AI-APACHE2")
 
-scalaVersion := "2.13.15"
+scalaVersion := "3.5.1"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
@@ -38,7 +38,7 @@ libraryDependencies ++= Seq(
 
 // server side dependencies
 libraryDependencies ++= Seq(
-  "com.github.pureconfig" %% "pureconfig"           % versions.pureConfig,
+  "com.github.pureconfig" %% "pureconfig-core"      % versions.pureConfig,
   "org.json4s"            %% "json4s-jackson"       % versions.json4s,
   "org.json4s"            %% "json4s-ext"           % versions.json4s,
   "org.apache.pekko"      %% "pekko-http"           % versions.pekkoHttp,

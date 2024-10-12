@@ -16,23 +16,23 @@
 package loremipsum.server.akkahttp
 
 import org.slf4j.LoggerFactory
-import pureconfig.ConfigSource
-import pureconfig.generic.auto._
+import pureconfig.*
+import pureconfig.generic.derivation.default.*
 
 case class ApplicationConfig(
   name: String,
   code: String,
-)
+) derives ConfigReader
 
 case class HttpConfig(
   listeningInterface: String,
   listeningPort: Int,
-)
+) derives ConfigReader
 
 case class SiteConfig(
   prefix: Option[String],
   url: String
-)  {
+) derives ConfigReader  {
   val cleanedPrefix = prefix.map(_.trim.replaceAll("/+$", "")).filter(_.size > 0)
   val cleanedURL = url.trim.replaceAll("/+$", "")
   val absolutePrefix = cleanedPrefix.map(p => s"/$p").getOrElse("")
@@ -48,7 +48,7 @@ case class ContentConfig(
   maxWordCount: Int,
   foregroundColor: String,
   backgroundColor: String,
-)
+) derives ConfigReader
 
 case class GeneratorConfig(
   startWithLoremIpsum: Boolean,
@@ -57,7 +57,7 @@ case class GeneratorConfig(
   sentencesBased: Boolean,
   minWordCount: Int,
   maxWordCount: Int,
-)
+) derives ConfigReader
 
 case class LoremMetaConfig(
   projectName: Option[String],
@@ -67,7 +67,7 @@ case class LoremMetaConfig(
   buildDateTime: Option[String],
   buildUUID: Option[String],
   contactEmail: Option[String],
-) {
+) derives ConfigReader {
   def version = buildVersion.getOrElse("x.y.z")
   def dateTime = buildDateTime.getOrElse("?")
   def uuid = buildUUID.getOrElse("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
@@ -83,13 +83,13 @@ case class LoremIpsumConfig(
   content: ContentConfig,
   generator: GeneratorConfig,
   metaInfo: LoremMetaConfig
-)
+) derives ConfigReader
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 case class ServiceConfig(
   loremIpsum: LoremIpsumConfig
-)
+) derives ConfigReader
 
 object ServiceConfig {
   def apply(): ServiceConfig = {

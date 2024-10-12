@@ -13,7 +13,7 @@ It has been deployed on https://mapland.fr/lorem
 Thanks to [scala-cli][scl],
 this application is quite easy to start, just execute :
 ```
-scala-cli -S 2.13.15 --dep fr.janalyse::lorem-ipsum-server-akkahttp:1.0.14 -e 'loremipsum.server.akkahttp.Main.main(args)'
+scala-cli --dep fr.janalyse::lorem-ipsum-server-akkahttp:1.0.15 -e 'loremipsum.server.akkahttp.Main.main(args)'
 ```
 
 ## Configuration
