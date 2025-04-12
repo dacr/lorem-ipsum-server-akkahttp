@@ -4,25 +4,25 @@ description  := "lorem-ipsum service with API"
 
 licenses += "NON-AI-APACHE2" -> url(s"https://github.com/non-ai-licenses/non-ai-licenses/blob/main/NON-AI-APACHE2")
 
-scalaVersion := "3.5.1"
+scalaVersion := "3.6.4"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 lazy val versions = new {
   // client side dependencies
-  val swaggerui = "5.17.14"
-  val bootstrap = "5.3.3"
+  val swaggerui = "5.20.7"
+  val bootstrap = "5.3.5"
   val jquery    = "3.7.1"
-  val awesome   = "6.5.2"
+  val awesome   = "6.7.2"
 
   // server side dependencies
-  val pureConfig      = "0.17.7"
-  val pekko           = "1.1.1"
+  val pureConfig      = "0.17.8"
+  val pekko           = "1.1.3"
   val pekkoHttp       = "1.1.0"
-  val pekkoHttpJson4s = "3.0.0"
+  val pekkoHttpJson4s = "3.1.0"
   val json4s          = "4.0.7"
-  val logback         = "1.5.8"
-  val slf4j           = "2.0.16"
+  val logback         = "1.5.18"
+  val slf4j           = "2.0.17"
   val scalatest       = "3.2.19"
   val webjarsLocator  = "0.52"
   val loremIpsum      = "1.0.7"
@@ -58,6 +58,7 @@ libraryDependencies ++= Seq(
 Compile / mainClass    := Some("loremipsum.server.akkahttp.Main")
 packageBin / mainClass := Some("loremipsum.server.akkahttp.Main")
 
+enablePlugins(JavaServerAppPackaging)
 enablePlugins(SbtTwirl)
 
 homepage   := Some(url("https://github.com/dacr/lorem-ipsum-server-akkahttp"))
@@ -70,3 +71,6 @@ developers := List(
     url = url("https://github.com/dacr")
   )
 )
+
+Universal / topLevelDirectory := None
+Universal / packageName       := s"${name.value}"
