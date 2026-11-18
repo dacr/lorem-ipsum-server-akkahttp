@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     utils.url = "github:numtide/flake-utils";
     sbt.url = "github:zaninime/sbt-derivation";
     sbt.inputs.nixpkgs.follows = "nixpkgs";
@@ -10,11 +10,18 @@
   utils.lib.eachDefaultSystem (system:
   let
     pkgs = import nixpkgs { inherit system; };
+
+    jdk         = pkgs.jdk25;
+    jdkHeadless = pkgs.jdk25_headless;
+
+    devSbt    = pkgs.sbt.override { jre = jdk; };
+    buildSbt  = pkgs.sbt.override { jre = jdkHeadless; };
+    devMetals = pkgs.metals.override { jre = jdk; };
   in {
     # ---------------------------------------------------------------------------
     # nix develop
     devShells.default = pkgs.mkShell {
-      buildInputs = [pkgs.sbt pkgs.metals pkgs.jdk21 pkgs.hello];
+      buildInputs = [devSbt devMetals jdk pkgs.hello];
     };
 
     # ---------------------------------------------------------------------------
@@ -26,9 +33,10 @@
 
       src = ./.;
 
-      buildInputs = [pkgs.sbt pkgs.jdk21_headless pkgs.makeWrapper];
+      buildInputs = [buildSbt jdkHeadless pkgs.makeWrapper];
 
-      buildPhase = "sbt Universal/packageZipTarball";
+      # without the nix sandbox /tmp is shared between build users, keep sbt boot socket in the per build TMPDIR
+      buildPhase = "sbt -Djava.io.tmpdir=$TMPDIR Universal/packageZipTarball";
 
       installPhase = ''
           mkdir -p $out
@@ -39,7 +47,7 @@
               pkgs.gawk
               pkgs.coreutils
               pkgs.bash
-              pkgs.jdk21_headless
+              jdkHeadless
             ]}
       '';
     };
