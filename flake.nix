@@ -22,7 +22,7 @@
     packages.default = sbt.mkSbtDerivation.${system} {
       pname = "nix-lorem-ipsum";
       version = builtins.elemAt (builtins.match ''[^"]+"(.*)".*'' (builtins.readFile ./version.sbt)) 0;
-      depsSha256 = "sha256-AgpWO0W26gdO1+Y4GDvGszsbti9KogyPowW7vTTxnPA=";
+      depsSha256 = "sha256-g9KmOF6DjiIrA8SIasTAC7sbME9DHQQkIyhZ7AMoTfk=";
 
       src = ./.;
 
