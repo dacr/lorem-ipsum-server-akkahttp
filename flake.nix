@@ -30,7 +30,7 @@
     packages.default = (sbt.mkSbtDerivation.${system}.withOverrides { sbt = buildSbt; }) {
       pname = "nix-lorem-ipsum";
       version = builtins.elemAt (builtins.match ''[^"]+"(.*)".*'' (builtins.readFile ./version.sbt)) 0;
-      depsSha256 = "sha256-7y7uMtYG2fw1Fty0O7OK4QIdUrFXfSG8Mbx1smubonA=";
+      depsSha256 = "sha256-GftUXfkEg4/keihcBxeB4KlixUW7DuUjbaiWqqv6fsE=";
 
       src = ./.;
 

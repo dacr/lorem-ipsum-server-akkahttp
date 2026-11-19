@@ -1,4 +1,4 @@
-# ![](images/logo-base-32.png) Lorem ipsum web ![tests][tests-workflow] [![License][licenseImg]][licenseLink] [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
+# ![](images/logo-base-32.png) Lorem ipsum web [![License][licenseImg]][licenseLink] [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
 
 A [lorem ipsum][wiki-lorem] web application server based on [pekko http][pekko-http] and [tapir][tapir], and
 a dedicated [lorem ipsum library][lorem-lib]. The API documentation is generated from the API definition and
@@ -42,7 +42,6 @@ scala-cli --dep fr.janalyse::lorem-ipsum-server-akkahttp:1.0.15 -e 'loremipsum.s
 [pekko-http]: https://pekko.apache.org/docs/pekko-http/current/
 [tapir]:      https://tapir.softwaremill.com/
 
-[tests-workflow]: https://github.com/dacr/lorem-ipsum-server-akkahttp/actions/workflows/scala.yml/badge.svg
 
 [LoremIpsumServerAkka]:       https://github.com/dacr/lorem-ipsum-server-akkahttp
 [LoremIpsumServerAkkaMvnImg]: https://img.shields.io/maven-central/v/fr.janalyse/lorem-ipsum-server-akkahttp_2.13.svg
