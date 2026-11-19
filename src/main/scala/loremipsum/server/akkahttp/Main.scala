@@ -21,11 +21,11 @@ import org.slf4j.Logger
 object Main {
   System.setProperty(ClassicConstants.CONFIG_FILE_PROPERTY, "loremipsum/logback.xml")
 
-  def start():Service = {
+  def start(): Service = {
     val logger: Logger = org.slf4j.LoggerFactory.getLogger("LoremIpsumMain")
     logger.info(s"lorem-ipsum application is starting")
-    val dependencies = ServiceDependencies.defaults
-    val serviceRoutes = ServiceRoutes(dependencies)
+    val dependencies   = ServiceDependencies.defaults
+    val serviceRoutes  = ServiceRoutes(dependencies)
     Service(dependencies, serviceRoutes)
   }
 

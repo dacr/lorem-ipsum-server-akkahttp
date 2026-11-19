@@ -25,21 +25,21 @@ import org.slf4j.Logger
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRoutes) {
-  val appConfig = dependencies.config.loremIpsum
-  val version = appConfig.metaInfo.version
-  val appCode: String = appConfig.application.code
+  val appConfig         = dependencies.config.loremIpsum
+  val version           = appConfig.metaInfo.version
+  val appCode: String   = appConfig.application.code
   val interface: String = appConfig.http.listeningInterface
-  val port: Int = appConfig.http.listeningPort
+  val port: Int         = appConfig.http.listeningPort
 
   private val logger: Logger = org.slf4j.LoggerFactory.getLogger(appCode)
   logger.info(s"$appCode service version $version is starting")
 
-  val config = ConfigFactory.load() // akka specific config is accessible under the path named 'lorem-ipsum'
-  implicit val system: ActorSystem = org.apache.pekko.actor.ActorSystem(s"akka-http-$appCode-system", config.getConfig("lorem-ipsum"))
+  val config                                              = ConfigFactory.load() // akka specific config is accessible under the path named 'lorem-ipsum'
+  implicit val system: ActorSystem                        = org.apache.pekko.actor.ActorSystem(s"akka-http-$appCode-system", config.getConfig("lorem-ipsum"))
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val bindingFuture: Future[Http.ServerBinding] = Http().newServerAt(interface = interface, port = port).bindFlow(servicesRoutes.routes)
-  bindingFuture.map{_ =>
+  bindingFuture.map { _ =>
     logger.info(s"$appCode service is started and listening on $interface:$port")
     logger.info(s"$appCode Embedded swagger user interface ${appConfig.site.swaggerUserInterfaceURL}")
     logger.info(s"$appCode Embedded swagger specification ${appConfig.site.swaggerURL}")
@@ -57,7 +57,7 @@ case class Service(dependencies: ServiceDependencies, servicesRoutes: ServiceRou
   }
 
   // Can be used to avoid automatic exit from ammonite scripts
-  def waitSystemTerminate():Unit = {
+  def waitSystemTerminate(): Unit = {
     println("Waiting for end of operations...")
     import scala.concurrent.Await
     import scala.concurrent.duration.Duration

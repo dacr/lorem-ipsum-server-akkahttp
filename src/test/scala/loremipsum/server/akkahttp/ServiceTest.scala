@@ -128,11 +128,9 @@ class ServiceTest extends AnyWordSpec with should.Matchers with ScalatestRouteTe
 
   "Lorem Ipsum Service with a site prefix" should {
     val defaultConfig  = ServiceDependencies.defaultConfig
-    val prefixedConfig = defaultConfig.copy(loremIpsum =
-      defaultConfig.loremIpsum.copy(site = defaultConfig.loremIpsum.site.copy(prefix = Some("lorem")))
-    )
+    val prefixedConfig = defaultConfig.copy(loremIpsum = defaultConfig.loremIpsum.copy(site = defaultConfig.loremIpsum.site.copy(prefix = Some("lorem"))))
     val prefixedRoutes = ServiceRoutes(new ServiceDependencies {
-      override val config: ServiceConfig        = prefixedConfig
+      override val config: ServiceConfig      = prefixedConfig
       override val lorem: LoremIpsumGenerator = DefaultLoremIpsumGenerator(prefixedConfig)
     }).routes
 
