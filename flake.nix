@@ -26,10 +26,11 @@
 
     # ---------------------------------------------------------------------------
     # nix build
-    packages.default = sbt.mkSbtDerivation.${system} {
+    # withOverrides also makes the dependencies derivation use the JDK 25 sbt, not the nixpkgs default one
+    packages.default = (sbt.mkSbtDerivation.${system}.withOverrides { sbt = buildSbt; }) {
       pname = "nix-lorem-ipsum";
       version = builtins.elemAt (builtins.match ''[^"]+"(.*)".*'' (builtins.readFile ./version.sbt)) 0;
-      depsSha256 = "sha256-g9KmOF6DjiIrA8SIasTAC7sbME9DHQQkIyhZ7AMoTfk=";
+      depsSha256 = "sha256-7y7uMtYG2fw1Fty0O7OK4QIdUrFXfSG8Mbx1smubonA=";
 
       src = ./.;
 
@@ -42,6 +43,7 @@
           mkdir -p $out
           tar xf target/universal/lorem-ipsum-server-akkahttp.tgz --directory $out
           makeWrapper $out/bin/lorem-ipsum-server-akkahttp $out/bin/nix-lorem-ipsum \
+            --set JAVA_HOME ${jdkHeadless} \
             --set PATH ${pkgs.lib.makeBinPath [
               pkgs.gnused
               pkgs.gawk

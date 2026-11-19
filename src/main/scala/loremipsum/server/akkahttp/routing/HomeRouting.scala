@@ -15,42 +15,35 @@
  */
 package loremipsum.server.akkahttp.routing
 
-import org.apache.pekko.http.scaladsl.model.HttpCharsets._
-import org.apache.pekko.http.scaladsl.model.MediaTypes._
-import org.apache.pekko.http.scaladsl.model._
-import org.apache.pekko.http.scaladsl.server.Directives._
-import org.apache.pekko.http.scaladsl.server.Route
 import loremipsum.server.akkahttp.ServiceDependencies
-import loremipsum.server.akkahttp.templates.html._
+import loremipsum.server.akkahttp.templates.html.HomeTemplate
+import sttp.tapir.*
+
+import scala.concurrent.Future
 
 case class HomeContext(
-  context:PageContext,
+  context: PageContext,
   paragraphs: List[String]
 )
 
 case class HomeRouting(dependencies: ServiceDependencies) extends Routing {
-  val contentConfig = dependencies.config.loremIpsum.content
-  val configSite = dependencies.config.loremIpsum.site
-  val pageContext = PageContext(dependencies.config.loremIpsum)
-  val minWordCount = Some(contentConfig.minWordCount)
-  val maxWordCount = Some(contentConfig.maxWordCount)
+  private val contentConfig = dependencies.config.loremIpsum.content
+  private val pageContext   = PageContext(dependencies.config.loremIpsum)
+  private val minWordCount  = Some(contentConfig.minWordCount)
+  private val maxWordCount  = Some(contentConfig.maxWordCount)
 
-  override def routes: Route = content
-
-  def content: Route = {
-    pathEndOrSingleSlash {
-      get {
-        complete {
-          val paragraphs = dependencies.lorem.randomParagraphs(minWordCount, maxWordCount)
-          val homeContext = HomeContext(
-            context = pageContext,
-            paragraphs = paragraphs.toList
-          )
-          val content = HomeTemplate.render(homeContext).toString()
-          val contentType = `text/html` withCharset `UTF-8`
-          HttpResponse(entity = HttpEntity(contentType, content), headers = noClientCacheHeaders)
+  private val home =
+    endpoint.get
+      .in("") // root path only, an endpoint without any path input matches all paths
+      .out(htmlBodyUtf8)
+      .out(header(Routing.noClientCacheHeader))
+      .serverLogicSuccess[Future] { _ =>
+        Future.successful {
+          val paragraphs  = dependencies.lorem.randomParagraphs(minWordCount, maxWordCount)
+          val homeContext = HomeContext(context = pageContext, paragraphs = paragraphs.toList)
+          HomeTemplate.render(homeContext).toString
         }
       }
-    }
-  }
+
+  override def endpoints = List(home)
 }

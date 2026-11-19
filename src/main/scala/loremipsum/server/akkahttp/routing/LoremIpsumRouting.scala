@@ -15,64 +15,34 @@
  */
 package loremipsum.server.akkahttp.routing
 
-import org.apache.pekko.http.scaladsl.model._
-import org.apache.pekko.http.scaladsl.server.Directives._
-import org.apache.pekko.http.scaladsl.server.Route
-import com.github.pjfanning.pekkohttpjson4s.Json4sSupport._
 import loremipsum.server.akkahttp.ServiceDependencies
+import loremipsum.server.akkahttp.api.{ApiEndpoints, ServiceInfo}
 import loremipsum.server.akkahttp.tools.DateTimeTools
 
 import java.util.UUID
+import scala.concurrent.Future
 
 case class LoremIpsumRouting(dependencies: ServiceDependencies) extends Routing with DateTimeTools {
-  val apiURL = dependencies.config.loremIpsum.site.apiURL
-  val meta = dependencies.config.loremIpsum.metaInfo
-  val startedDate = now()
-  val instanceUUID = UUID.randomUUID().toString
+  private val meta         = dependencies.config.loremIpsum.metaInfo
+  private val startedDate  = now()
+  private val instanceUUID = UUID.randomUUID()
 
-  override def routes: Route = pathPrefix("api") {
-    concat(info, loremIpsumParagraphs, loremIpsumText)
+  private val serviceInfo = ServiceInfo(
+    instanceUUID = instanceUUID,
+    startedOn = epochToUTCDateTime(startedDate),
+    version = meta.version,
+    buildDate = meta.dateTime
+  )
+
+  private val info = ApiEndpoints.info.serverLogicSuccess[Future](_ => Future.successful(serviceInfo))
+
+  private val paragraphs = ApiEndpoints.paragraphs.serverLogicSuccess[Future] { (minWordCount, maxWordCount) =>
+    Future.successful(dependencies.lorem.randomParagraphs(minWordCount, maxWordCount).toList)
   }
 
-  def info: Route = {
-    path("info") {
-      get {
-        complete(
-          Map(
-            "instanceUUID" -> instanceUUID,
-            "startedOn" -> epochToUTCDateTime(startedDate),
-            "version" -> meta.version,
-            "buildDate" -> meta.buildDateTime
-          )
-        )
-      }
-    }
+  private val text = ApiEndpoints.text.serverLogicSuccess[Future] { (minWordCount, maxWordCount) =>
+    Future.successful(dependencies.lorem.randomText(minWordCount, maxWordCount))
   }
 
-  def loremIpsumParagraphs: Route = {
-    path("paragraphs") {
-      get {
-        parameters("minWordCount".as[Int].optional, "maxWordCount".as[Int].optional) { (minWordCount, maxWordCount) =>
-          complete {
-            dependencies.lorem.randomParagraphs(minWordCount, maxWordCount)
-          }
-        }
-      }
-    }
-  }
-
-
-  def loremIpsumText: Route = {
-    path("text") {
-      get {
-        parameters("minWordCount".as[Int].optional, "maxWordCount".as[Int].optional) { (minWordCount, maxWordCount) =>
-          complete {
-            dependencies.lorem.randomText(minWordCount, maxWordCount)
-          }
-        }
-      }
-    }
-  }
-
-
+  override def endpoints = List(info, paragraphs, text)
 }

@@ -1,7 +1,8 @@
 # ![](images/logo-base-32.png) Lorem ipsum web ![tests][tests-workflow] [![License][licenseImg]][licenseLink] [![][LoremIpsumServerAkkaMvnImg]][LoremIpsumServerAkkaMvnLnk]
 
-A [lorem ipsum][wiki-lorem] web application server based on [akka http][akka-http] framework, and
-a dedicated [lorem ipsum library][lorem-lib]. 
+A [lorem ipsum][wiki-lorem] web application server based on [pekko http][pekko-http] and [tapir][tapir], and
+a dedicated [lorem ipsum library][lorem-lib]. The API documentation is generated from the API definition and
+served through an embedded swagger user interface, under `/swagger`.
 It is both a runnable application and a library whose routes can be embedded in other web applications.
 
 It has been deployed on https://mapland.fr/lorem
@@ -38,7 +39,8 @@ scala-cli --dep fr.janalyse::lorem-ipsum-server-akkahttp:1.0.15 -e 'loremipsum.s
 [deployed]:   http://crosson.fr/lorem
 [lorem-lib]:  https://github.com/dacr/lorem-ipsum
 [wiki-lorem]: https://en.wikipedia.org/wiki/Lorem_ipsum
-[akka-http]:  https://doc.akka.io/docs/akka-http/current/index.html
+[pekko-http]: https://pekko.apache.org/docs/pekko-http/current/
+[tapir]:      https://tapir.softwaremill.com/
 
 [tests-workflow]: https://github.com/dacr/lorem-ipsum-server-akkahttp/actions/workflows/scala.yml/badge.svg
 
