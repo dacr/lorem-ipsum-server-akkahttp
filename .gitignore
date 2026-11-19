@@ -3,3 +3,4 @@ target/
 null/
 .bsp/
 result
+.envrc
