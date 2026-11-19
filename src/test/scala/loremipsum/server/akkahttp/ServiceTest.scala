@@ -153,4 +153,13 @@ class ServiceTest extends AnyWordSpec with should.Matchers with ScalatestRouteTe
       }
     }
   }
+
+  "Site configuration" should {
+    "Build URLs without double slashes when the site URL ends with a slash" in {
+      val site = SiteConfig(prefix = Some("lorem/"), url = "https://lorem-ipsum.example.org/")
+      site.baseURL shouldBe "https://lorem-ipsum.example.org/lorem"
+      site.swaggerUserInterfaceURL shouldBe "https://lorem-ipsum.example.org/lorem/swagger"
+      SiteConfig(prefix = None, url = "https://lorem-ipsum.example.org/").baseURL shouldBe "https://lorem-ipsum.example.org"
+    }
+  }
 }
